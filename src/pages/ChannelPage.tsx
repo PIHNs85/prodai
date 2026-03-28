@@ -51,9 +51,9 @@ const ChannelPage = () => {
         </div>
       </div>
 
-      {/* Videos */}
+      {/* Series */}
       <main className="flex-1 max-w-[1800px] mx-auto w-full px-4 pb-8">
-        <h2 className="text-lg font-medium text-foreground mb-4">Videos</h2>
+        <h2 className="text-lg font-medium text-foreground mb-4">Series</h2>
         {channelVideos.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8">
             {channelVideos.map((video) => (
@@ -61,7 +61,7 @@ const ChannelPage = () => {
             ))}
           </div>
         ) : (
-          <p className="text-muted-foreground py-12 text-center">No videos yet.</p>
+          <p className="text-muted-foreground py-12 text-center">No series yet.</p>
         )}
       </main>
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Upload as UploadIcon, Film, Zap, AlertCircle } from "lucide-react";
+import { Upload as UploadIcon, Film, Zap, CircleAlert as AlertCircle } from "lucide-react";
 import { SHORTS_MAX_DURATION_SECONDS, SHORTS_MAX_FILE_SIZE_MB, SHORTS_MAX_FILE_SIZE_BYTES } from "@/data/videos";
 
 type UploadType = "video" | "short";
@@ -17,7 +17,7 @@ const Upload = () => {
 
     if (uploadType === "short") {
       if (file.size > SHORTS_MAX_FILE_SIZE_BYTES) {
-        setFileError(`Short videos must be under ${SHORTS_MAX_FILE_SIZE_MB}MB. This file is ${(file.size / (1024 * 1024)).toFixed(1)}MB.`);
+        setFileError(`Mini videos must be under ${SHORTS_MAX_FILE_SIZE_MB}MB. This file is ${(file.size / (1024 * 1024)).toFixed(1)}MB.`);
         setFileName("");
         return false;
       }
@@ -28,7 +28,7 @@ const Upload = () => {
       video.onloadedmetadata = () => {
         URL.revokeObjectURL(video.src);
         if (video.duration > SHORTS_MAX_DURATION_SECONDS) {
-          setFileError(`Short videos must be ${SHORTS_MAX_DURATION_SECONDS} seconds or less. This video is ${Math.ceil(video.duration)} seconds.`);
+          setFileError(`Mini videos must be ${SHORTS_MAX_DURATION_SECONDS} seconds or less. This video is ${Math.ceil(video.duration)} seconds.`);
           setFileName("");
         }
       };
@@ -59,7 +59,7 @@ const Upload = () => {
         <div className="w-full max-w-xl">
           <h1 className="text-2xl font-serif font-bold text-foreground text-center mb-6">Upload</h1>
 
-          {/* Toggle: Video vs Short */}
+          {/* Toggle: Series vs Mini */}
           <div className="flex bg-secondary rounded-xl p-1 mb-6">
             <button
               onClick={() => { setUploadType("video"); setFileName(""); setFileError(""); }}
@@ -67,7 +67,7 @@ const Upload = () => {
                 uploadType === "video" ? "bg-foreground text-background" : "text-foreground hover:bg-muted"
               }`}
             >
-              <Film className="w-4 h-4" /> Video
+              <Film className="w-4 h-4" /> Series
             </button>
             <button
               onClick={() => { setUploadType("short"); setFileName(""); setFileError(""); }}
@@ -75,16 +75,16 @@ const Upload = () => {
                 uploadType === "short" ? "bg-foreground text-background" : "text-foreground hover:bg-muted"
               }`}
             >
-              <Zap className="w-4 h-4" /> Short
+              <Zap className="w-4 h-4" /> Mini
             </button>
           </div>
 
-          {/* Limits info for shorts */}
+          {/* Limits info for minis */}
           {uploadType === "short" && (
             <div className="flex items-start gap-2 bg-primary/10 border border-primary/20 rounded-lg p-3 mb-4 text-xs text-foreground">
               <AlertCircle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
               <div>
-                <p className="font-medium">Short video limits:</p>
+                <p className="font-medium">Mini video limits:</p>
                 <p className="text-muted-foreground mt-0.5">Max duration: {SHORTS_MAX_DURATION_SECONDS} seconds · Max file size: {SHORTS_MAX_FILE_SIZE_MB}MB</p>
               </div>
             </div>
@@ -109,7 +109,7 @@ const Upload = () => {
               <>
                 <UploadIcon className="w-12 h-12 text-muted-foreground mb-4" />
                 <p className="text-sm text-foreground font-medium">
-                  Drag and drop {uploadType === "short" ? "a short video" : "a video file"}
+                  Drag and drop {uploadType === "short" ? "a mini video" : "a series video"}
                 </p>
                 <p className="text-xs text-muted-foreground mt-1">or click to browse</p>
               </>
@@ -133,7 +133,7 @@ const Upload = () => {
           <div className="mt-6 space-y-4">
             <input
               type="text"
-              placeholder={uploadType === "short" ? "Short title" : "Video title"}
+              placeholder={uploadType === "short" ? "Mini title" : "Series title"}
               className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary"
             />
             <textarea
@@ -142,7 +142,7 @@ const Upload = () => {
               className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary resize-none"
             />
             <button className="w-full py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/80 transition-colors">
-              Upload {uploadType === "short" ? "Short" : "Video"} (Coming Soon)
+              Upload {uploadType === "short" ? "Mini" : "Series"} (Coming Soon)
             </button>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Header from "@/components/Header";
 import { shorts, getShort, getChannel } from "@/data/videos";
@@ -12,17 +12,30 @@ const formatNumber = (n: number) => {
 
 const Shorts = () => {
   const { shortId } = useParams<{ shortId: string }>();
-  const allShorts = shorts;
-  const initialIndex = shortId ? allShorts.findIndex((s) => s.id === shortId) : 0;
+  const [infiniteShorts, setInfiniteShorts] = useState(() => {
+    const repeated = [...shorts, ...shorts, ...shorts];
+    return repeated;
+  });
+  const initialIndex = shortId ? shorts.findIndex((s) => s.id === shortId) + shorts.length : shorts.length;
   const [currentIndex, setCurrentIndex] = useState(Math.max(initialIndex, 0));
   const [liked, setLiked] = useState<Record<string, boolean>>({});
   const [disliked, setDisliked] = useState<Record<string, boolean>>({});
 
-  const currentShort = allShorts[currentIndex];
+  useEffect(() => {
+    if (currentIndex >= infiniteShorts.length - shorts.length) {
+      setInfiniteShorts(prev => [...prev, ...shorts]);
+    } else if (currentIndex < shorts.length && infiniteShorts.length > shorts.length * 3) {
+      const newStart = Math.max(0, currentIndex - shorts.length);
+      setInfiniteShorts([...shorts, ...infiniteShorts.slice(0, infiniteShorts.length - shorts.length)]);
+      setCurrentIndex(newStart + shorts.length);
+    }
+  }, [currentIndex, infiniteShorts.length]);
+
+  const currentShort = infiniteShorts[currentIndex];
   const channel = currentShort ? getChannel(currentShort.channelId) : undefined;
 
   const goNext = () => {
-    if (currentIndex < allShorts.length - 1) setCurrentIndex(currentIndex + 1);
+    setCurrentIndex(currentIndex + 1);
   };
   const goPrev = () => {
     if (currentIndex > 0) setCurrentIndex(currentIndex - 1);
@@ -112,19 +125,19 @@ const Shorts = () => {
               <span className="text-xs">Share</span>
             </button>
 
-            <button onClick={goNext} disabled={currentIndex === allShorts.length - 1} className="p-2 rounded-full bg-secondary hover:bg-muted disabled:opacity-30 transition-colors text-foreground">
+            <button onClick={goNext} className="p-2 rounded-full bg-secondary hover:bg-muted transition-colors text-foreground">
               <ChevronDown className="w-6 h-6" />
             </button>
           </div>
         </div>
 
-        {/* Dot indicators */}
+        {/* Progress indicator */}
         <div className="absolute bottom-4 flex gap-1.5">
-          {allShorts.map((_, i) => (
+          {shorts.map((_, i) => (
             <button
               key={i}
-              onClick={() => setCurrentIndex(i)}
-              className={`w-2 h-2 rounded-full transition-colors ${i === currentIndex ? "bg-primary" : "bg-muted-foreground/30"}`}
+              onClick={() => setCurrentIndex(i + shorts.length)}
+              className={`w-2 h-2 rounded-full transition-colors ${(currentIndex % shorts.length) === i ? "bg-primary" : "bg-muted-foreground/30"}`}
             />
           ))}
         </div>

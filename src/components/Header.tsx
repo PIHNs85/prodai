@@ -61,7 +61,7 @@ const Header = () => {
               className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:bg-secondary rounded-full transition-colors"
             >
               <Zap className="w-5 h-5" />
-              <span className="hidden lg:inline">Shorts</span>
+              <span className="hidden lg:inline">Minis</span>
             </Link>
             <Link
               to="/upload"
@@ -98,7 +98,7 @@ const Header = () => {
               Home
             </Link>
             <Link to="/shorts" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-3 py-3 rounded-lg text-foreground hover:bg-secondary transition-colors">
-              Shorts
+              Minis
             </Link>
             <Link to="/upload" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-3 py-3 rounded-lg text-foreground hover:bg-secondary transition-colors">
               Upload

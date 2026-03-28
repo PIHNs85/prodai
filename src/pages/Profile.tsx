@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import VideoCard from "@/components/VideoCard";
 import { Link } from "react-router-dom";
 import { videos, shorts, channels } from "@/data/videos";
-import { Settings, Grid3X3, Zap, User, Film } from "lucide-react";
+import { Settings, Grid3x3 as Grid3X3, Zap, User, Film } from "lucide-react";
 
 type ProfileTab = "videos" | "shorts" | "about";
 
@@ -17,8 +17,8 @@ const Profile = () => {
   const userShorts = shorts.filter((s) => s.channelId === user.id);
 
   const tabs: { id: ProfileTab; label: string; icon: React.ReactNode }[] = [
-    { id: "videos", label: "Videos", icon: <Grid3X3 className="w-4 h-4" /> },
-    { id: "shorts", label: "Shorts", icon: <Zap className="w-4 h-4" /> },
+    { id: "videos", label: "Series", icon: <Grid3X3 className="w-4 h-4" /> },
+    { id: "shorts", label: "Minis", icon: <Zap className="w-4 h-4" /> },
     { id: "about", label: "About", icon: <User className="w-4 h-4" /> },
   ];
 
@@ -40,7 +40,7 @@ const Profile = () => {
           <div className="flex-1 pb-2">
             <h1 className="text-2xl md:text-3xl font-serif font-bold text-foreground">{user.name}</h1>
             <p className="text-sm text-muted-foreground mt-1">
-              {user.subscribers} subscribers · {userVideos.length} videos · {userShorts.length} shorts
+              {user.subscribers} subscribers · {userVideos.length} series · {userShorts.length} minis
             </p>
             <p className="text-sm text-muted-foreground mt-1 line-clamp-1">{user.description}</p>
           </div>
@@ -81,7 +81,7 @@ const Profile = () => {
           ) : (
             <div className="text-center py-20">
               <Film className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
-              <p className="text-muted-foreground">No videos yet.</p>
+              <p className="text-muted-foreground">No series yet.</p>
             </div>
           )
         )}
@@ -107,7 +107,7 @@ const Profile = () => {
           ) : (
             <div className="text-center py-20">
               <Zap className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
-              <p className="text-muted-foreground">No shorts yet.</p>
+              <p className="text-muted-foreground">No minis yet.</p>
             </div>
           )
         )}
@@ -131,11 +131,11 @@ const Profile = () => {
                 </div>
                 <div className="bg-secondary rounded-lg p-4">
                   <p className="text-lg font-bold text-foreground">{userVideos.length}</p>
-                  <p className="text-xs text-muted-foreground">Videos</p>
+                  <p className="text-xs text-muted-foreground">Series</p>
                 </div>
                 <div className="bg-secondary rounded-lg p-4">
                   <p className="text-lg font-bold text-foreground">{userShorts.length}</p>
-                  <p className="text-xs text-muted-foreground">Shorts</p>
+                  <p className="text-xs text-muted-foreground">Minis</p>
                 </div>
               </div>
             </div>

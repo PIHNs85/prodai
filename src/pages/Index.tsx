@@ -46,13 +46,13 @@ const Index = () => {
           </p>
         )}
 
-        {/* Shorts shelf — only show when not searching */}
+        {/* Minis shelf — only show when not searching */}
         {!query && (
           <section className="mb-8">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <Zap className="w-5 h-5 text-primary" />
-                <h2 className="text-lg font-serif font-bold text-foreground">Shorts</h2>
+                <h2 className="text-lg font-serif font-bold text-foreground">Minis</h2>
               </div>
               <Link to="/shorts" className="text-sm text-primary hover:text-primary/80 transition-colors">
                 View all
@@ -81,17 +81,23 @@ const Index = () => {
           </section>
         )}
 
-        {filteredVideos.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8">
-            {filteredVideos.map((video) => (
-              <VideoCard key={video.id} video={video} />
-            ))}
-          </div>
-        ) : (
-          <p className="text-center text-muted-foreground py-20">
-            No videos found.
-          </p>
-        )}
+        {/* Series section */}
+        <section>
+          {!query && (
+            <h2 className="text-lg font-serif font-bold text-foreground mb-4">Series</h2>
+          )}
+          {filteredVideos.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8">
+              {filteredVideos.map((video) => (
+                <VideoCard key={video.id} video={video} />
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-muted-foreground py-20">
+              No series found.
+            </p>
+          )}
+        </section>
       </main>
 
       <Footer />
